@@ -1,0 +1,3 @@
+# ADR-0003: PostgreSQL uniquement via conteneur Docker + vim-dadbod
+
+psql n'est PAS installé en local : la base tourne dans un conteneur Docker. On accède via **vim-dadbod + dadbod-ui** (connexion, navigation de schéma, exécution de requêtes depuis Neovim) plus un **LSP SQL** (complétion/lint dans les fichiers `.sql`). Le maître du schéma reste Docker Compose ; la config de connexion dadbod pointe vers le conteneur. Ce choix évite un démon Postgres natif et homogénéise l'environnement avec la stack Docker déjà présente.

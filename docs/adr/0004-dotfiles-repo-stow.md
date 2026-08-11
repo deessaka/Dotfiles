@@ -1,0 +1,3 @@
+# ADR-0004: Dotfiles versionnés dans ~/dotfiles avec GNU stow
+
+Toute la config vit dans un repo git **~/dotfiles**, branches/stockées par outil (`nvim/`, `tmux/`, `git/`, `zsh/`), et GNU stow crée les symlinks vers le home. Motivations : rollback facile, portabilité freelance (recréer l'env sur n'importe quelle machine), et capacité d'itérer en git history. La config Neovim suit le layout préfixé `nvim/.config/nvim` (stowable), ce qui la rend partageable/reperdable indépendamment.

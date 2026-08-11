@@ -1,0 +1,16 @@
+# .gitconfig-work — identité PRO (ejara). Charé uniquement via includeIf
+# depuis .gitconfig.git pour tout repo sous ~/workspace/ejara/.
+# Jamais actif hors de ce répertoire.
+
+[user]
+  name = ekodev
+  email = deessaka.samuel@ejara.africa
+
+[core]
+  sshCommand = ssh -F ~/.ssh/config -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519_work
+
+# --- SSH : clé de TRAVAIL dans les repos ejara ---
+[url "git@github-work:"]
+  insteadOf = git@github.com:
+[url "ssh://git@github-work/"]
+  insteadOf = https://github.com/

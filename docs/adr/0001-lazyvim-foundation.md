@@ -1,0 +1,3 @@
+# ADR-0001: LazyVim comme fondation Neovim
+
+On construit la config Neovim sur **LazyVim** (le choix de Takuya/craftzdog) plutôt que sur un fork brut de `craftzdog/dotfiles-public` ou une config from scratch en `lazy.nvim` pur. LazyVim fournit des défauts sains, un lazy-loading (crucial sur une machine 4 cœurs/11 Go) et des extras par langage activables au besoin. On personnalise via `lua/plugins/*` : Solarized Osaka, IA, dadbod, DAP. Raisons : rapidement productif sur une stack très large (TS/Go/Flutter/Docker), maintenance partagée par la communauté, évite le "config-purgatoire". Counter-option rejetée : fork brut de Takuya — on hériterait de ses choix sans les comprendre.

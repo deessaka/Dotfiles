@@ -1,0 +1,79 @@
+# Aliases zsh modernes — conservé sur oh-my-zsh (ADR-0004), enrichi façon Takuya.
+# Sourcé depuis ~/.zshrc : `[ -f ~/.zsh_modern ] && source ~/.zsh_modern`
+
+# ls → eza
+alias ls='eza --icons --git --group-directories-first'
+alias ll='eza --icons --git --group-directories-first -la'
+alias la='eza --icons --git -a'
+alias lt='eza --icons --tree --level=2'
+
+# Navigation zoxide (z)
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+  alias cd="z"
+fi
+
+# cd autocomplété intelligent
+setopt AUTO_CD
+
+# Navigation projets ghq + fzf
+if command -v ghq >/dev/null 2>&1; then
+  function ghq-fzf() {
+    local repo=$(ghq list | fzf --preview 'eza --tree --level=2 "$(ghq root)/{}"')
+    if [ -n "$repo" ]; then
+      cd "$(ghq root)/$repo"
+    fi
+  }
+  alias gp='ghq-fzf'
+fi
+
+# fzf : raccourcis classiques
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always {} 2>/dev/null | head -100'"
+
+# Navigation rapide
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias home='cd ~'
+
+# Git raccourcis (complète le .gitconfig)
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit -m'
+alias gp='git push'
+alias gl='git pull'
+alias gd='git diff'
+alias gco='git checkout'
+alias gb='git branch'
+
+# Docker
+alias d='docker'
+alias dc='docker compose'
+alias dcu='docker compose up'
+alias dcd='docker compose down'
+alias dcub='docker compose up --build'
+
+# Node / npm
+alias dev='npm run dev'
+alias build='npm run build'
+alias test='npm run test'
+alias prune='npm prune && npm cache clean --force'
+
+# tmux
+alias t='tmux'
+alias tnew='tmux new -s'
+
+# nvim
+alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
+
+# Divers utilitaires
+alias q='clear'
+alias h='history'
+alias grep='rg'
+alias uuid='uuidgen'
+alias ip='ip -color'

@@ -1,0 +1,71 @@
+# .gitconfig — productivity-optimized, adapté de craftzdog.
+# Défaut global = identité PERSONNELLE. L'identité PRO (ejara) s'applique
+# uniquement sous ~/workspace/ejara/ via includeIf (voir .gitconfig-work).
+
+[safe]
+  directory = /home/ekodev/workspace/doc-mind
+  directory = /home/ekodev/workspace/ejara
+
+[user]
+  name = ekodev
+  email = ekoledev@gmail.com
+
+[init]
+  defaultBranch = main
+
+[core]
+  editor = nvim
+  pager = delta
+  excludesfile = ~/.gitignore_global
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  line-numbers = true
+  side-by-side = true
+  syntax-theme = "Solarized (dark)"
+  features = decorative
+
+[alias]
+  co = checkout
+  br = branch
+  ci = commit
+  st = status
+  unstage = reset HEAD --
+  last = log -1 HEAD
+  lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+  lga = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+  amend = commit --amend
+  cleanup = clean -fdX
+  uncommit = reset --soft HEAD~1
+  wip = !git add -A && git commit -m 'wip'
+  assume = update-index --assume-unchanged
+  unassume = update-index --no-assume-unchanged
+  dc = diff --cached
+
+[credential]
+  helper = cache --timeout=86400
+
+[push]
+  default = simple
+  autoSetupRemote = true
+  followTags = true
+
+[fetch]
+  prune = true
+
+[pull]
+  rebase = true
+  autostash = true
+
+# --- SSH : clé PERSONNELLE par défaut ---
+[url "git@github-personal:"]
+  insteadOf = git@github.com:
+[url "ssh://git@github-personal/"]
+  insteadOf = https://github.com/
+
+# --- Identité PRO : uniquement sous ~/workspace/ejara ---
+[includeIf "gitdir:~/workspace/ejara/"]
+  path = ~/dotfiles/git/.gitconfig-work
