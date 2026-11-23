@@ -6,7 +6,8 @@ return {
     opts = {
       suggestion = {
         enabled = true,
-        auto_trigger = true,
+        -- auto_trigger off : le churn réseau/LSP à chaque frappe gelait nvim
+        auto_trigger = false,
         keymap = { accept = "<M-l>" },
       },
       filetypes = {
@@ -18,14 +19,19 @@ return {
 
   -- Agent opencode : agent intégré (ADR-0002).
   -- Pas de setup() dans ce plugin : config via vim.g.opencode_opts + keymaps.
+  -- server.start = false : ne JAMAIS spawner de serveur (opencode --port) dans
+  -- nvim (nil ne surcharge pas le défaut via tbl_deep_extend ; false aborte la
+  -- découverte au lieu de lancer un vsplit `opencode --port`).
+  -- Le TUI externe doit tourner avec `opencode --port 5789` ; le plugin s'y
+  -- attache via la découverte (pgrep/lsof + chevauchement de cwd). Deux agents
+  -- qui écrivent les mêmes fichiers = conflits.
   {
     "nickjvandyke/opencode.nvim",
     event = { "VeryLazy" },
     init = function()
       vim.g.opencode_opts = {
-        -- optionnel : réutilise le serveur opencode déjà lancé
         server = {
-          start = { "opencode", "--port", "5789" },
+          start = false,
         },
       }
     end,
@@ -37,30 +43,4 @@ return {
     },
   },
 
-  -- Assistant conversationnel : avante.nvim, provider Gemini via OAuth ACP (ADR-0002)
-  {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    build = "make", -- utilise le binaire pré-buildé via curl/tar (pas besoin de cargo)
-    version = false,
-    opts = {
-      provider = "gemini",
-      mode = "agentic",
-      file_selector = {
-        provider = "telescope",
-      },
-      hints = { enabled = true },
-      windows = {
-        width = 30,
-        sidebar_header = {
-          align = "center",
-          rounded = true,
-        },
-      },
-    },
-    keys = {
-      { "<leader>aa", "<cmd>Avante<CR>", desc = "Avante assistant" },
-      { "<leader>ar", "<cmd>AvanteRefresh<CR>", desc = "Avante refresh" },
-    },
-  },
 }

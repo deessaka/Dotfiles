@@ -29,14 +29,13 @@ cd ~/dotfiles
 ./install.sh --no-tools
 ```
 
-## Raccourcis IA (triade)
+## Raccourcis IA (duo)
 
 | Touche        | Outil          | Rôle                              |
 | ------------- | -------------- | --------------------------------- |
 | `<leader>ai`  | opencode.nvim  | Agent (menu) — contexte éditeur   |
 | `<leader>aq`  | opencode.nvim  | Agent (ask) sur la sélection      |
 | `go` / `goo`  | opencode.nvim  | Agent (opérateur) sur une motion  |
-| `<leader>aa`  | avante.nvim    | Assistant conversationnel (Gemini)|
 | `<M-l>`       | copilot.lua    | Accepter suggestion inline        |
 
 ## Identités Git
@@ -47,4 +46,4 @@ cd ~/dotfiles
 ## Docs
 
 - `AGENTS.md` — vocabulaire partagé (Ubiquitous Language)
-- `docs/adr/` — ADRs : LazyVim, triade IA, Postgres Docker, dotfiles, nvim stable, Go, identité git
+- `docs/adr/` — ADRs : LazyVim, duo IA, Postgres Docker, dotfiles, nvim stable, Go, identité git

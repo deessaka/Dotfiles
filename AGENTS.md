@@ -12,8 +12,7 @@ Dev Environment & Tooling context — the set of developer tools, configs and wo
 - **Écosystème terminal** — _Avoid_: "outils". The surrounding CLI layer that makes nvim productive: tmux, lazygit, git-delta, eza, zoxide, ghq, fzf — configured cohesively, not just installed.
 - **IA - Complétion** — _Avoid_: "autocomplete". Inline code suggestion as you type (copilot.lua).
 - **IA - Agent** — _Avoid_: "chatbot", "AI tool". Task-executing AI that edits files and runs commands (opencode via opencode.nvim) — injected with editor context (cursor, selection, buffer).
-- **IA - Assistant** — _Avoid_: "chat GPT". Conversational AI with code editing capabilities in a dedicated nvim UI (avante.nvim), using Gemini via OAuth ACP.
-- **Triade IA** — _Avoid_: "l'IA". The deliberate three-integration AI layout: Copilot (completion) + opencode.nvim (agent) + avante (assistant), each on a different keymap namespace, no overlap.
+- **Duo IA** — _Avoid_: "l'IA". The deliberate two-integration AI layout: Copilot (completion) + opencode.nvim (agent), each on a different keymap namespace, no overlap. (avante.nvim assistant retiré le 2026-09-18 : redondant, source d'erreurs Mason, cf. ADR-0002.)
 - **Débogage via adaptateurs** — _Avoid_: "debug". nvim-dap wired for Node/TS, Go (delve), Flutter and Browser/Chrome, each with its own adapter config.
 - **Datasource conteneurisée** — _Avoid_: "la base de données", "psql". PostgreSQL always runs in a Docker container; local `psql` is intentionally not installed. DB access happens via vim-dadbod pointing at the container, and SQL files get LSP-based completion.
 - **Gestion de projet (ghq)** — _Avoid_: "voir mes projets". Repository management under a single root (`~/ghq`) with `ghq list | fzf` for quick jumps, Takuya-style.

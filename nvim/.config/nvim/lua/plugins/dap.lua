@@ -1,12 +1,17 @@
 return {
-  -- Adaptation DAP par-dessus l'extra LazyVim dap.core (nvim-dap + nvim-dap-ui)
   {
     "mfussenegger/nvim-dap",
-    dependencies = { "nvim-neotest/nvim-nio" },
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      {
+        "AkisArou/nvim-dap-react-native",
+        build = "npm ci",
+      },
+    },
     config = function(_, opts)
       local dap = require("dap")
 
-      -- Node/TS : vscode-js-debug
+      -- Node/TS : vscode-js-debug (pwa-node)
       dap.adapters["pwa-node"] = {
         type = "server",
         host = "localhost",
@@ -39,6 +44,35 @@ return {
       dap.configurations.javascriptreact = vim.deepcopy(dap.configurations.typescript)
       dap.configurations.typescriptreact = vim.deepcopy(dap.configurations.typescript)
 
+      -- React Native : Hermes CDP adapter (pwa-node based)
+      dap.adapters["reactnativedirect"] = require("dap-react-native").create_adapter(
+        dap.adapters["pwa-node"]
+      )
+      for _, ft in ipairs({ "javascript", "typescript", "javascriptreact", "typescriptreact" }) do
+        dap.configurations[ft] = dap.configurations[ft] or {}
+        table.insert(dap.configurations[ft], {
+          type = "reactnativedirect",
+          request = "attach",
+          name = "RN: Attach Hermes",
+          cwd = "${workspaceFolder}",
+          address = "127.0.0.1",
+          port = 8081,
+          sourceMaps = true,
+          sourceMapPathOverrides = {
+            ["/[metro-project]/*"] = "${workspaceFolder}/*",
+          },
+          skipFiles = {
+            "<node_internals>/**",
+            "node_modules/**",
+            "**/node_modules/undici/**",
+            "**/node_modules/typescript/**",
+            "**/node_modules/@expo/**",
+            "**/*.bundle.js",
+            "**/*.min.js",
+          },
+        })
+      end
+
       -- Go : delve
       dap.adapters.delve = {
         type = "server",
@@ -51,22 +85,6 @@ return {
           name = "Debug (Go)",
           request = "launch",
           program = "${workspaceFolder}",
-        },
-      }
-
-      -- Flutter/Dart : dart DAP
-      dap.adapters.dart = {
-        type = "executable",
-        command = "dart",
-        args = { "debug_adapter" },
-      }
-      dap.configurations.dart = {
-        {
-          type = "dart",
-          request = "launch",
-          name = "Run flutter main.dart",
-          program = "${workspaceFolder}/lib/main.dart",
-          cwd = "${workspaceFolder}",
         },
       }
     end,
